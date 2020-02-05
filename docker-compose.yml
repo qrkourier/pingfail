@@ -1,0 +1,40 @@
+version: "2.4"
+
+networks:
+    default:
+      external:
+        name: docker_default
+services:
+    elasticsearch:
+        image: elasticsearch:7.5.2
+        ports:
+            - 9200:9200
+            - 9300:9300
+        environment: 
+            - discovery.type=single-node
+        healthcheck:
+            test: ["CMD-SHELL", "curl -sSf elasticsearch:9200/_cat/health?v"]
+            interval: 1s
+            timeout: 1s
+            retries: 30    
+    grafana:
+        image: grafana/grafana:6.6.0
+        ports:
+            - 3000:3000
+        user: "104"
+        healthcheck:
+            test: ["CMD-SHELL", "curl -sSf grafana:3000/login"]
+            interval: 1s
+            timeout: 1s
+            retries: 30
+        depends_on:
+            elasticsearch:
+                condition: service_healthy          
+    pingfail:
+        image: qrkourier/pingfail
+        build: .
+        depends_on:
+            grafana:
+                condition: service_healthy          
+
+    
