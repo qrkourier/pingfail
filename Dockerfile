@@ -1,8 +1,11 @@
 FROM alpine:edge
 
-RUN apk add --update --no-cache python3 && \
+RUN apk add --update --no-cache python3 bash && \
     pip3 install --upgrade pip setuptools httpie && \
     rm -r /root/.cache
 
-ENTRYPOINT [ "http" ]
-CMD ["--help"]
+COPY ./pingfail.sh /
+COPY ./index-template.json /
+
+#ENTRYPOINT [ "http" ]
+CMD ["/pingfail.sh"]
