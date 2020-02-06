@@ -32,7 +32,7 @@ services:
         depends_on:
             elasticsearch:
                 condition: service_healthy          
-    pingfail4:
+    pingfail1:
         image: qrkourier/pingfail
         build: .
         environment: 
@@ -41,12 +41,12 @@ services:
         depends_on:
             elasticsearch:
                 condition: service_healthy          
-    pingfail6:
+    pingfail2:
         image: qrkourier/pingfail
         build: .
         environment: 
-            - PING_IPV="6"
-            - PING_TGT="2600::"
+            - PING_IPV="4"
+            - PING_TGT="4.2.2.2"
         depends_on:
             elasticsearch:
                 condition: service_healthy          
