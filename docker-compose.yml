@@ -21,20 +21,34 @@ services:
         image: grafana/grafana:6.6.0
         ports:
             - 3000:3000
-        user: "104"
+#        user: "grafana"
 #        healthcheck:
 #            test: ["CMD-SHELL", "curl -sSfL http://grafana:3000"]
 #            interval: 1s
 #            timeout: 1s
 #            retries: 30
+        volumes:
+            - ./vol-var-lib:/var/lib/grafana
         depends_on:
             elasticsearch:
                 condition: service_healthy          
-    pingfail:
+    pingfail4:
         image: qrkourier/pingfail
         build: .
+        environment: 
+            - PING_IPV="4"
+            - PING_TGT="8.8.8.8"
         depends_on:
             elasticsearch:
                 condition: service_healthy          
-
+    pingfail6:
+        image: qrkourier/pingfail
+        build: .
+        environment: 
+            - PING_IPV="6"
+            - PING_TGT="2600::"
+        depends_on:
+            elasticsearch:
+                condition: service_healthy          
+            
     
