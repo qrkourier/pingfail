@@ -9,13 +9,13 @@ until http --check-status GET elasticsearch:9200/_template/pingfail; do
         exit 1
     }
     http --json --verbose PUT elasticsearch:9200/_template/pingfail < /index-template.json
-    let TEMPLATE_ATTEMPTS++
+    let TEMPLATE_ATTEMPTS++ || true
     sleep 1
 done
 
 
 while :; do
-    ping -W1 -c1 ${PING_STRING:- -4 8.8.8.8} >/dev/null || {
+    eval ping -W1 -c1 -${PING_IPV:=4} ${PING_TGT:=8.8.8.8} >/dev/null || {
         http \
             --check-status \
             --verbose \
@@ -23,6 +23,7 @@ while :; do
             POST \
             elasticsearch:9200/pingfail-$(date +%Y.%m.%d)/_doc/ \
             ping:=false \
+            target=${PING_TGT} \
             timestamp=$(( $(date +%s)*1000 ))
     }
     sleep 1
