@@ -36,8 +36,8 @@ services:
         image: qrkourier/pingfail
         build: .
         environment: 
-            - PING_IPV="4"
-            - PING_TGT="8.8.8.8"
+            - PING_IPV=4
+            - PING_TGT=8.8.8.8
         depends_on:
             elasticsearch:
                 condition: service_healthy          
@@ -45,8 +45,8 @@ services:
         image: qrkourier/pingfail
         build: .
         environment: 
-            - PING_IPV="4"
-            - PING_TGT="4.2.2.2"
+            - PING_IPV=4
+            - PING_TGT=4.2.2.2
         depends_on:
             elasticsearch:
                 condition: service_healthy          
