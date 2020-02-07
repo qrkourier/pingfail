@@ -11,6 +11,9 @@
       "ping": {
         "type": "boolean"
       },
+      "target": {
+        "type": "keyword"
+      },
       "timestamp": {
         "type": "date",
         "format": "epoch_millis"
